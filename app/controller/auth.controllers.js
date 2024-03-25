@@ -10,6 +10,7 @@ import mailer from '../config/mailer.js';
 //Sign up user
 const signUpUser = async (req, res, next) => {
     let userExists;
+    let hostUrl = window.location.protocol + "//" + window.location.host;
     const {email, password, confirmPassword} = req.body;
     
     if (!email || !password || !confirmPassword) {
@@ -50,7 +51,7 @@ const signUpUser = async (req, res, next) => {
         'subject': "TripMatch Registration Notification",
         'message': message,
         'toName': email,
-        'link': `http://localhost:9900/api/auth/verify_email/?token=${user._id}&isSet=true`
+        'link': `${hostUrl}/api/auth/verify_email/?token=${user._id}&isSet=true`
     }
     const sendMail = await mailer(params);
     console.log(sendMail);
@@ -125,7 +126,7 @@ const verifyUserEmail = async (req, res, next) => {
 const generateOTP = async (req, res, next) => {
     req.app.locals.OTP = await otpGenerator.generate(6, {lowerCaseAlphabets:false, upperCaseAlphabets :false, specialChars:false});
     const message = `<p>You received this email because you requested for a password reset.</p><br />
-    Use the OTP bellow to reset your password <a href="http://localhost:9900/api/auth/verify_email/?token=${user._id}&isSet=true"><h1>${req.app.locals.OTP}</h1></a>`;
+    Use the OTP bellow to reset your password <a href="${hostUrl}/api/auth/verify_email/?token=${user._id}&isSet=true"><h1>${req.app.locals.OTP}</h1></a>`;
     const params = {
         'toEmail': req.body.email,
         'subject': "TripMatch Registration Notification",

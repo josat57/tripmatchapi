@@ -10,7 +10,8 @@ import mailer from '../config/mailer.js';
 //Sign up user
 const signUpUser = async (req, res, next) => {
     let userExists;
-    let hostUrl = window.location.protocol + "//" + window.location.host;
+    // let hostUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+    let hostUrl = req.protocol + '://' + req.get('host');
     const {email, password, confirmPassword} = req.body;
     
     if (!email || !password || !confirmPassword) {

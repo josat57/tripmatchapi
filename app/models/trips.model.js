@@ -14,12 +14,12 @@ const tripsSchema = new mongoose.Schema({
     tripMembers: {
         type: Array,
         require: false,
-        default: []
+        default: [String]
     },
     requests: {
         type: Array,
         require: false,
-        default: []
+        default: [String]
     },
     teamSize: {
         type: Number,
@@ -52,7 +52,7 @@ const tripsSchema = new mongoose.Schema({
         require: true, 
     },
     ageRange: {
-        type: String,
+        type: [String],
         require: false
     },
     personalityDescription: {
@@ -75,6 +75,11 @@ const tripsSchema = new mongoose.Schema({
     comments: {
         type: Array,
         default: []
+    },
+    ratings: {
+        type: Number,
+        min:0,
+        max:5
     },
     isPublic: {
         type: Boolean,

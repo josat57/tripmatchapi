@@ -45,8 +45,12 @@ const userSchema = new mongoose.Schema({
         required: true,
         min: 6,
     },
+    goals: {
+        type: Array,
+        default: []
+    },
     profilePhoto: {
-        type: String,
+        type: [String],
         default: ''
     },
     coverPhoto: {
@@ -68,6 +72,10 @@ const userSchema = new mongoose.Schema({
     identification: {
         type: String,
         min: 6        
+    },
+    address: {
+        type: String,
+        max: 255
     },
     city: {
         type: String,

@@ -11,12 +11,13 @@ const validateJwtToken = async (req, res, next) => {
         if (!token) {
             res.status(401).json({ message: "Invalid token"});
         } else {
-            const validateToken = await jwt.verify(token, secrete.PU_KEY);            
+            const validateToken = jwt.verify(token, secrete.PU_KEY);
             req.user = validateToken;
             next();
         }
     } catch (error) {
-        res.status(500).json({message: error.message});
+        console.log(error);
+        res.status(501).json({message: error.message});
     }
 };
 
@@ -69,14 +70,14 @@ const getFollowers = async (req, res) => {
 const getUser = async (req, res) => {
     const id = req.user.userId;
     const userName = req.user.userEmail;
-    console.log(id, userName, req)
+    console.log(id, userName);
     try {
         const user = id ? await usersModel.findById(id) : await usersModel.findOne({email: userName}); 
         if (!user) {
             res.status(404).json({message: 'User not found'});
         } else {
-            const {password, updatedAt, ...other} = user._doc;
-            res.status(200).json({other});
+            const {password, updatedAt, ...data} = user._doc;
+            res.status(200).json({data});
         }
     } catch (err) {
         console.error(err);

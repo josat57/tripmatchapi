@@ -367,7 +367,7 @@ const updateTrip = async (req, res) => {
         if (!trip.userId == req.params.id) {
             res.status(403).json({message: "You cannot trip on a person's timeline without a user's consent."});
         }
-        await trip.updateOne({$set: req.body});
+        await trip.updateOne({$set: req.body}, {new:true});
         res.status(200).json({message: "The trip was successfully updated."});
     } catch(err) {
         res.status(403).json(err.message);
